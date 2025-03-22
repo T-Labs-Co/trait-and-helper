@@ -22,24 +22,23 @@
 
 namespace TLabsCo\TraitAndHelper\Misc;
 
-use Illuminate\Support\Str;
+use Carbon\Carbon;
 
-final class ClassExtractHelper
+final class DateHelper
 {
-    public static function classNameOnly(object|string $obj)
+    public static function parseCarbon($date)
     {
-        $class = $obj;
+        try {
+            if ($date instanceof Carbon) {
+                return $date;
+            }
 
-        if (is_object($obj)) {
-            $class = get_class($obj);
+            if ($date && is_string($date)) {
+                return Carbon::parse($date);
+            }
+        } catch (\Exception $e) {
         }
 
-        // get only class name without namespace
-        // from 'App\Enums\StatusEnum' to 'StatusEnum'
-        $classNameOnly = Str::afterLast($class, '\\');
-
-        // convert camel to dashed or snake case
-        // from 'App\Enums\StatusEnum' to 'status_enum'
-        return camel2dashed($classNameOnly, '_');
+        return null;
     }
 }

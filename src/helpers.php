@@ -21,7 +21,8 @@
  */
 
 use Illuminate\Support\Str;
-use TLabsCo\TraitAndHelper\Misc\ClassExtractHelper;
+use TLabsCo\TraitAndHelper\Misc\ClassHelper;
+use TLabsCo\TraitAndHelper\Misc\DateHelper;
 
 if (! function_exists('camel2dashed')) {
     /**
@@ -51,6 +52,24 @@ if (! function_exists('class_name_only')) {
      */
     function class_name_only(string|object $class): string
     {
-        return ClassExtractHelper::classNameOnly($class);
+        return ClassHelper::classNameOnly($class);
+    }
+}
+
+if (! function_exists('parse_date_carbon')) {
+    function parse_date_carbon($date)
+    {
+        return DateHelper::parseCarbon($date);
+    }
+}
+
+if (! function_exists('has_use')) {
+    /**
+     * @param  mixed  $instance
+     * @return bool
+     */
+    function has_use(string $trait, $instance)
+    {
+        return ClassHelper::hasUseTrait($trait, $instance);
     }
 }
