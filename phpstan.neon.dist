@@ -10,3 +10,7 @@ parameters:
     tmpDir: build/phpstan
     checkOctaneCompatibility: true
     checkModelProperties: true
+    ignoreErrors:
+        - '#Trait [a-zA-Z0-9\\_]+HasArrayAccessTrait is used zero times and is not analysed.#'
+        - '#Trait [a-zA-Z0-9\\_]+ReadOnlyTrait is used zero times and is not analysed.#'
+        - '#Trait [a-zA-Z0-9\\_]+EnumHelperTrait is used zero times and is not analysed.#'

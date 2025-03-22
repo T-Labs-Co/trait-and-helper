@@ -20,8 +20,8 @@
  * file that was distributed with this source code.
  */
 
-use App\Supports\ClassExtractHelper;
 use Illuminate\Support\Str;
+use TLabsCo\TraitAndHelper\Misc\ClassExtractHelper;
 
 if (! function_exists('camel2dashed')) {
     /**

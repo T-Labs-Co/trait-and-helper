@@ -1,6 +1,26 @@
 <?php
 
-namespace App\Supports;
+/*
+ * This file is a part of package t-co-labs/trait-and-helper
+ *
+ * (c) T.Labs & Co.
+ * Contact for Work: T. <hongty.huynh@gmail.com>
+ *
+ * We're PHP and Laravel whizzes, and we'd love to work with you! We can:
+ *  - Design the perfect fit solution for your app.
+ *  - Make your code cleaner and faster.
+ *  - Refactoring and Optimize performance.
+ *  - Ensure Laravel best practices are followed.
+ *  - Provide expert Laravel support.
+ *  - Review code and Quality Assurance.
+ *  - Offer team and project leadership.
+ *  - Delivery Manager
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace TLabsCo\TraitAndHelper\Misc;
 
 use Illuminate\Support\Str;
 
@@ -20,24 +40,6 @@ final class ClassExtractHelper
 
         // convert camel to dashed or snake case
         // from 'App\Enums\StatusEnum' to 'status_enum'
-        return self::camel2dashed($classNameOnly, '_');
-    }
-
-    /**
-     * Convert camelCase to dashed-case
-     *
-     * @param  string  $character
-     */
-    private static function camel2dashed(string $str, $character = '-'): string
-    {
-        return strtolower(preg_replace('/([^A-Z-])([A-Z])/', "$1{$character}$2", $str));
-    }
-
-    /**
-     * Convert class name to camelCase
-     */
-    private static function class2camel(string|object $class): string
-    {
-        return Str::camel(Str::afterLast(is_object($class) ? get_class($class) : $class, '\\'));
+        return camel2dashed($classNameOnly, '_');
     }
 }
