@@ -2,9 +2,11 @@
 
 All notable changes to `trait-and-helper` will be documented in this file.
 
-
 Contact [T.Labs & Co.](https://github.com/ty-huynh)
 
+## v1.0.0 - 2025-03-22
+
+**Full Changelog**: https://github.com/T-Labs-Co/trait-and-helper/commits/v1.0.0
 
 ## [Released]
 
