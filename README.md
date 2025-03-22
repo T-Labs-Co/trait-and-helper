@@ -1,4 +1,4 @@
-# This is my package trait-and-helper
+# This package provides a collection of useful traits and helper functions to enhance your Laravel applications
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/t-labs-co/trait-and-helper.svg?style=flat-square)](https://packagist.org/packages/t-labs-co/trait-and-helper)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/t-labs-co/trait-and-helper/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/t-labs-co/trait-and-helper/actions?query=workflow%3Arun-tests+branch%3Amain)
