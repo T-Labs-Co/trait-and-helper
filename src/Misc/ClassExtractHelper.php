@@ -26,7 +26,7 @@ final class ClassExtractHelper
     /**
      * Convert camelCase to dashed-case
      *
-     * @param string $character
+     * @param  string  $character
      */
     private static function camel2dashed(string $str, $character = '-'): string
     {

@@ -19,13 +19,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace TLabsCo\TraitAndHelper\Exceptions;
 
 class ReadOnlyException extends \RuntimeException
 {
-    public function __construct($action, $model, $code = 0, Throwable $previous = null)
+    public function __construct($action, $model, $code = 0, ?Throwable $previous = null)
     {
-        $message = "Can not $action the read-only model " . class_name_only($model);
+        $message = "Can not $action the read-only model ".class_name_only($model);
 
         parent::__construct($message, $code, $previous);
     }

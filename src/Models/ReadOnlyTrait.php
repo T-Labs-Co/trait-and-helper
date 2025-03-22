@@ -19,6 +19,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace TLabsCo\TraitAndHelper\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -28,20 +29,21 @@ trait ReadOnlyTrait
 {
     private $readonly = true;
 
-    public static function bootReadOnlyTrait() {
-        static::saving(function(Model $model) {
+    public static function bootReadOnlyTrait()
+    {
+        static::saving(function (Model $model) {
             if ($model->isReadOnly()) {
                 throw new ReadOnlyException('save', $model);
             }
         });
 
-        static::updating(function(Model $model) {
+        static::updating(function (Model $model) {
             if ($model->isReadOnly()) {
                 throw new ReadOnlyException('update', $model);
             }
         });
 
-        static::deleting(function(Model $model) {
+        static::deleting(function (Model $model) {
             if ($model->isReadOnly()) {
                 throw new ReadOnlyException('delete', $model);
             }
@@ -56,12 +58,14 @@ trait ReadOnlyTrait
     public function enableReadOnly()
     {
         $this->readonly = true;
+
         return $this;
     }
 
     public function disableReadOnly()
     {
         $this->readonly = false;
+
         return $this;
     }
 }

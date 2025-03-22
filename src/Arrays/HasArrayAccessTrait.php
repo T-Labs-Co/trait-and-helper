@@ -19,6 +19,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace TLabsCo\TraitAndHelper\Arrays;
 
 use Illuminate\Support\Arr;
@@ -96,7 +97,6 @@ trait HasArrayAccessTrait
 
     /**
      * @param  string  $key
-     * @return bool
      */
     public function offsetExists($key): bool
     {
@@ -107,7 +107,6 @@ trait HasArrayAccessTrait
      * Get a configuration option.
      *
      * @param  string  $key
-     * @return mixed
      */
     public function offsetGet($key): mixed
     {
@@ -117,7 +116,6 @@ trait HasArrayAccessTrait
     /**
      * @param  string  $key
      * @param  mixed  $value
-     * @return void
      */
     public function offsetSet($key, $value): void
     {
@@ -126,7 +124,6 @@ trait HasArrayAccessTrait
 
     /**
      * @param  string  $key
-     * @return void
      */
     public function offsetUnset($key): void
     {
