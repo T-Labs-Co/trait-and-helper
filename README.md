@@ -25,6 +25,7 @@ We're PHP and Laravel whizzes, and we'd love to work with you! We can:
 - `HasArrayAccessTrait`: Provides array-like access to object properties.
 - `ReadOnlyTrait`: Protects models from being modified
 - `BulkDeleteTrait`: Simplifies bulk deletion of Eloquent models with transaction support.
+- `AutoFillableTrait`: Automatically with mass assignment only attributes from table data.
 - `EnumHelperTrait`: Provides helper methods for working with PHP enums. 
 - Additional helper functions to streamline common tasks.
 
@@ -67,9 +68,10 @@ class DataObject implements \ArrayAccess
 }
 
 // using 
-DataObject->get($key);
-DataObject->set($key, $value);
-DataObject->has($key);
+$dataObject = new DataObject();
+$dataObject->get($key);
+$dataObject->set($key, $value);
+$dataObject->has($key);
 
 ### 
 # ReadOnlyTrait
@@ -116,6 +118,23 @@ Category::forceDeletes(Category::where('name', 'unknown'));
 // delete quitely
 Category::deletesQuietly(Category::where('name', 'unknown'));
 
+
+###
+# AutoFillableTrait
+# this trait automatically popular mass assignment only attributes from table columns.
+###
+
+class Category extends Model
+{
+    use HasFactory;
+    use AutoFillableTrait;
+    //...
+    // this model don't need to config $fillable attributes it will auto fetch from database table and perform mass-assignment
+}
+// using 
+$category = new Category();
+$category->fill($data); // 
+$category->save();
 
 ```
 

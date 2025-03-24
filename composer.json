@@ -1,7 +1,7 @@
 {
     "name": "t-labs-co/trait-and-helper",
     "description": "Collection of traits and helpers for Laravel.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "keywords": [
         "T.Labs and Co.",
         "T.Labs Co.",
@@ -42,7 +42,10 @@
         "psr-4": {
             "TLabsCo\\TraitAndHelper\\": "src/",
             "TLabsCo\\TraitAndHelper\\Database\\Factories\\": "database/factories/"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

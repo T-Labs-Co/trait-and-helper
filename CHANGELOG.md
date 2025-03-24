@@ -10,6 +10,15 @@ Contact [T.Labs & Co.](https://github.com/ty-huynh)
 
 ## [Released]
 
+## [1.0.1] - 2025-03-24
+
+### Fixed
+- Fixed load helpers from composer
+
+### Added
+- Added `AutoFillableTrait` for automatically filling model attributes from request data.
+
+
 ## [1.0.0] - 2025-03-22
 
 ### Added
