@@ -16,3 +16,4 @@ parameters:
         - '#Trait [a-zA-Z0-9\\_]+EnumHelperTrait is used zero times and is not analysed.#'
         - '#Trait [a-zA-Z0-9\\_]+BulkDeleteTrait is used zero times and is not analysed.#'
         - '#Trait [a-zA-Z0-9\\_]+AutoFillableTrait is used zero times and is not analysed.#'
+        - '#Trait [a-zA-Z0-9\\_]+PropertyConfigurable is used zero times and is not analysed.#'

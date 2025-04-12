@@ -27,6 +27,7 @@ We're PHP and Laravel whizzes, and we'd love to work with you! We can:
 - `BulkDeleteTrait`: Simplifies bulk deletion of Eloquent models with transaction support.
 - `AutoFillableTrait`: Automatically with mass assignment only attributes from table data.
 - `EnumHelperTrait`: Provides helper methods for working with PHP enums. 
+- `PropertyConfigurable`: Alows you to manage dynamic configurations stored in attributes like settings or extras. It provides methods for accessing, updating, and caching configuration values, making it easy to work with flexible data structures in your models.
 - Additional helper functions to streamline common tasks.
 
 ## PHP and Laravel Version Support
@@ -136,6 +137,95 @@ $category = new Category();
 $category->fill($data); // 
 $category->save();
 
+```
+
+###
+# PropertyConfigurable
+# This trait allows you to manage dynamic configurations stored in attributes like settings or extras. It provides methods for accessing, updating, and caching configuration values, making it easy to work with flexible data structures in your models.
+###
+
+Add using trait `PropertyConfigurable`
+
+```php
+// 
+class Product extends Model
+{
+    use PropertyConfigurable;
+
+    // Make `settings` and `extras` fillable
+    protected $fillable = [
+        'name',
+        'settings',
+        'extras',
+    ];
+
+    // Add `settings` and `extras` to casts
+    protected $casts = [
+        'settings' => 'array',
+        'extras' => 'array',
+    ];
+
+    // Optionally, override the property config key
+    protected $propertyConfigKey = 'settings';
+
+    // Or define a custom config key getter
+    protected function getPropertyConfigKey()
+    {
+        return 'settings';
+    }
+}
+
+Using the config in application
+
+```php
+$product = Product::find(1);
+
+// Access the `settings` configuration
+$config = $product->config();
+$value = $config->get('key'); // Get a specific key from settings
+```
+
+You can update the configuration values dynamically.
+
+```php
+$product = Product::find(1);
+
+// Update a specific key in the `settings` configuration
+$product->config()->set('key', 'new value');
+
+// Save the changes
+$product->save();
+```
+
+Clearing Cached Configurations
+
+```php 
+// You can clear the cached configuration values if needed.
+$product = Product::find(1);
+
+// Clear the cached configuration
+$product->clearConfigCached();
+```
+
+Using a Custom Config Attribute
+
+```php
+class Product extends Model
+{
+    use PropertyConfigurable;
+
+    protected $fillable = ['name', 'settings', 'extras'];
+    protected $casts = ['settings' => 'array', 'extras' => 'array'];
+
+    public function getExtrasAttribute()
+    {
+        return $this->config()->makePropertyConfig($this, 'extras');
+    }
+}
+
+// Access the `extras` configuration
+$product = Product::find(1);
+$extras = $product->extras->get('extra_key');
 ```
 
 

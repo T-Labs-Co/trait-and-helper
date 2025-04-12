@@ -4,15 +4,15 @@ All notable changes to `trait-and-helper` will be documented in this file.
 
 Contact [T.Labs & Co.](https://github.com/ty-huynh)
 
-## v1.0.1 - 2025-03-24
+---
 
-**Full Changelog**: https://github.com/T-Labs-Co/trait-and-helper/compare/v1.0.0...v1.0.1
+## [1.1.0] - 2025-04-12
 
-## v1.0.0 - 2025-03-22
+### Added
+- Added `PropertyConfigurable` trait for managing dynamic configurations in models.
 
-**Full Changelog**: https://github.com/T-Labs-Co/trait-and-helper/commits/v1.0.0
-
-## [Released]
+### Changed
+- Updated documentation for `EnumHelperTrait` with additional examples.
 
 ## [1.0.1] - 2025-03-24
 
@@ -25,6 +25,8 @@ Contact [T.Labs & Co.](https://github.com/ty-huynh)
 - Added `AutoFillableTrait` for automatically filling model attributes from request data.
 
 ## [1.0.0] - 2025-03-22
+
+**Full Changelog**: https://github.com/T-Labs-Co/trait-and-helper/commits/v1.0.0
 
 ### Added
 
