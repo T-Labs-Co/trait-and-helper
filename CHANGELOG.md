@@ -4,14 +4,21 @@ All notable changes to `trait-and-helper` will be documented in this file.
 
 Contact [T.Labs & Co.](https://github.com/ty-huynh)
 
+
 ---
+
+## v1.1.0 - 2025-04-12
+
+**Full Changelog**: https://github.com/T-Labs-Co/trait-and-helper/compare/v1.0.1...v1.1.0
 
 ## [1.1.0] - 2025-04-12
 
 ### Added
+
 - Added `PropertyConfigurable` trait for managing dynamic configurations in models.
 
 ### Changed
+
 - Updated documentation for `EnumHelperTrait` with additional examples.
 
 ## [1.0.1] - 2025-03-24
