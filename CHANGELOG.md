@@ -7,6 +7,18 @@ Contact [T.Labs & Co.](https://github.com/ty-huynh)
 
 ---
 
+## v1.1.1 - 2025-06-10
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 2.3.0 to 2.4.0 by @dependabot in https://github.com/T-Labs-Co/trait-and-helper/pull/1
+
+### New Contributors
+
+* @dependabot made their first contribution in https://github.com/T-Labs-Co/trait-and-helper/pull/1
+
+**Full Changelog**: https://github.com/T-Labs-Co/trait-and-helper/compare/v1.1.0...v1.1.1
+
 ## v1.1.0 - 2025-04-12
 
 **Full Changelog**: https://github.com/T-Labs-Co/trait-and-helper/compare/v1.0.1...v1.1.0
