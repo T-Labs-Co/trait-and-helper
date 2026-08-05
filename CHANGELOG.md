@@ -7,6 +7,15 @@ Contact [T.Labs & Co.](https://github.com/ty-huynh)
 
 ---
 
+## v1.1.2 - 2026-08-05
+
+### What's Changed
+
+* Bump aglipanci/laravel-pint-action from 2.5 to 2.6 by @dependabot[bot] in https://github.com/T-Labs-Co/trait-and-helper/pull/3
+* Bump dependabot/fetch-metadata from 2.4.0 to 2.5.0 by @dependabot[bot] in https://github.com/T-Labs-Co/trait-and-helper/pull/7
+
+**Full Changelog**: https://github.com/T-Labs-Co/trait-and-helper/compare/v1.1.1...v1.1.2
+
 ## v1.1.1 - 2025-06-10
 
 ### What's Changed
