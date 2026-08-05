@@ -34,8 +34,8 @@ We're PHP and Laravel whizzes, and we'd love to work with you! We can:
 
 This package supports the following versions of PHP and Laravel:
 
-- PHP: `^8.2`
-- Laravel: `^11.0`, `^12.0`
+- PHP: `^8.3`
+- Laravel: `^11.0`, `^12.0`, `^13.0`
 
 ## Installation
 
