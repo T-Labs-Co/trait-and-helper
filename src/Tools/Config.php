@@ -52,7 +52,7 @@ class Config implements ArrayAccess, Countable
     /**
      * The Model instance.
      *
-     * @var \Illuminate\Database\Eloquent\Model
+     * @var Model
      */
     protected $model;
 
@@ -129,7 +129,7 @@ class Config implements ArrayAccess, Countable
     /**
      * Get a specific attribute as a collection.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function collect(string $key)
     {
