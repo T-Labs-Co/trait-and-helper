@@ -7,6 +7,10 @@ Contact [T.Labs & Co.](https://github.com/ty-huynh)
 
 ---
 
+## v1.1.3 - 2026-08-05
+
+**Full Changelog**: https://github.com/T-Labs-Co/trait-and-helper/compare/v1.1.2...v1.1.3
+
 ## v1.1.2 - 2026-08-05
 
 ### What's Changed
