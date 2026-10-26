@@ -1,24 +1,6 @@
 <?php
 
-/*
- * This file is a part of package t-co-labs/trait-and-helper
- *
- * (c) T.Labs & Co.
- * Contact for Work: T. <hongty.huynh@gmail.com>
- *
- * We're PHP and Laravel whizzes, and we'd love to work with you! We can:
- *  - Design the perfect fit solution for your app.
- *  - Make your code cleaner and faster.
- *  - Refactoring and Optimize performance.
- *  - Ensure Laravel best practices are followed.
- *  - Provide expert Laravel support.
- *  - Review code and Quality Assurance.
- *  - Offer team and project leadership.
- *  - Delivery Manager
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
 namespace TLabsCo\TraitAndHelper\Tools;
 
@@ -32,50 +14,44 @@ use Illuminate\Support\Collection;
  * Class Config
  *
  * @refer https://github.com/signifly/laravel-configurable
+ *
+ * @template TKey of array-key
+ * @template TValue
+ * @implements ArrayAccess<TKey, TValue>
  */
 class Config implements ArrayAccess, Countable
 {
     /**
      * The config db key.
-     *
-     * @var string|null
      */
-    protected $configKey;
+    protected ?string $configKey;
 
     /**
      * The config data.
      *
-     * @var array
+     * @var array<string, mixed>
      */
-    protected $data;
+    protected array $data;
 
     /**
      * The Model instance.
-     *
-     * @var Model
      */
-    protected $model;
+    protected Model $model;
 
     /**
      * Create a new Config instance.
-     *
-     * @param  string  $configKey
      */
-    public function __construct(Model $model, $configKey = null)
+    public function __construct(Model $model, ?string $configKey = null)
     {
         $this->model = $model;
-
         $this->configKey = $configKey;
-
         $this->data = $this->getRawData();
     }
 
     /**
      * Get an attribute from config.
-     *
-     * @param  mixed  $default
      */
-    public function get(string $key, $default = null): mixed
+    public function get(string $key, mixed $default = null): mixed
     {
         return Arr::get($this->data, $key, $default);
     }
@@ -90,10 +66,8 @@ class Config implements ArrayAccess, Countable
 
     /**
      * Set an attribute in config.
-     *
-     * @param  mixed  $value
      */
-    public function set(string $key, $value): void
+    public function set(string $key, mixed $value): void
     {
         Arr::set($this->data, $key, $value);
 
@@ -103,15 +77,19 @@ class Config implements ArrayAccess, Countable
     /**
      * Remove an attribute from config.
      */
-    public function remove(string $key): Config
+    public function remove(string $key): static
     {
-        $this->model->{$this->getConfigKey()} = Arr::except($this->data, $key);
+        $this->data = Arr::except($this->data, $key);
+
+        $this->model->{$this->getConfigKey()} = $this->data;
 
         return $this;
     }
 
     /**
      * Get all attributes from config.
+     *
+     * @return array<string, mixed>
      */
     public function all(): array
     {
@@ -129,9 +107,9 @@ class Config implements ArrayAccess, Countable
     /**
      * Get a specific attribute as a collection.
      *
-     * @return Collection
+     * @return Collection<array-key, mixed>
      */
-    public function collect(string $key)
+    public function collect(string $key): Collection
     {
         return new Collection($this->get($key));
     }
@@ -148,11 +126,14 @@ class Config implements ArrayAccess, Countable
     /**
      * Get the raw data from the model.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    protected function getRawData()
+    protected function getRawData(): array
     {
-        return json_decode($this->model->getAttributes()[$this->getConfigKey()] ?? '{}', true);
+        $raw = $this->model->getAttributes()[$this->getConfigKey()] ?? '{}';
+        $decoded = json_decode($raw, true);
+
+        return is_array($decoded) ? $decoded : [];
     }
 
     /**
@@ -163,16 +144,25 @@ class Config implements ArrayAccess, Countable
         return $this->has($offset);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function offsetGet($offset): mixed
     {
         return $this->$offset;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function offsetSet($offset, $value): void
     {
         $this->{$offset} = $value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function offsetUnset($offset): void
     {
         $this->remove($offset);
@@ -180,41 +170,32 @@ class Config implements ArrayAccess, Countable
 
     /**
      * Get an attribute from config.
-     *
-     * @param  string  $key
      */
-    public function __get($key): mixed
+    public function __get(string $key): mixed
     {
         return $this->get($key);
     }
 
     /**
      * Determine if an attribute exists in config.
-     *
-     * @param  string  $key
      */
-    public function __isset($key): bool
+    public function __isset(string $key): bool
     {
         return $this->has($key);
     }
 
     /**
      * Set an attribute in config.
-     *
-     * @param  string  $key
-     * @param  mixed  $value
      */
-    public function __set($key, $value): void
+    public function __set(string $key, mixed $value): void
     {
         $this->set($key, $value);
     }
 
     /**
      * Remove an attribute from config.
-     *
-     * @param  string  $key
      */
-    public function __unset($key): void
+    public function __unset(string $key): void
     {
         $this->remove($key);
     }

@@ -1,41 +1,28 @@
-# This package provides a collection of useful traits and helper functions to enhance your Laravel applications
+# Trait & Helper
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/t-labs-co/trait-and-helper.svg?style=flat-square)](https://packagist.org/packages/t-labs-co/trait-and-helper)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/t-labs-co/trait-and-helper/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/t-labs-co/trait-and-helper/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/t-labs-co/trait-and-helper/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/t-labs-co/trait-and-helper/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/t-labs-co/trait-and-helper.svg?style=flat-square)](https://packagist.org/packages/t-labs-co/trait-and-helper)
+[![Tests](https://github.com/t-labs-co/trait-and-helper/actions/workflows/tests.yml/badge.svg)](https://github.com/t-labs-co/trait-and-helper/actions/workflows/tests.yml)
+[![Static Analysis](https://github.com/t-labs-co/trait-and-helper/actions/workflows/static-analysis.yml/badge.svg)](https://github.com/t-labs-co/trait-and-helper/actions/workflows/static-analysis.yml)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/t-labs-co/trait-and-helper.svg)](https://packagist.org/packages/t-labs-co/trait-and-helper)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
+[![PHP Version](https://img.shields.io/badge/php-%5E8.4-8892BF.svg)](https://php.net)
+[![Laravel Version](https://img.shields.io/badge/laravel-%5E12.0%20%7C%20%5E13.0-FF2D20.svg)](https://laravel.com)
 
-This package provides a collection of useful traits and helper functions to enhance your Laravel applications. It includes traits for array access, bulk deletion, and more, making it easier to manage common tasks in your projects.
-
-## Work with us
-
-We're PHP and Laravel whizzes, and we'd love to work with you! We can:
-
-- Design the perfect fit solution for your app.
-- Make your code cleaner and faster.
-- Refactoring and Optimize performance.
-- Ensure Laravel best practices are followed.
-- Provide expert Laravel support.
-- Review code and Quality Assurance.
-- Offer team and project leadership.
-- Delivery Manager
+Collection of reusable traits and helper utilities for Laravel — model protection, bulk operations, enum helpers, array-access, dynamic property configuration, and more.
 
 ## Features
 
-- `HasArrayAccessTrait`: Provides array-like access to object properties.
-- `ReadOnlyTrait`: Protects models from being modified
-- `BulkDeleteTrait`: Simplifies bulk deletion of Eloquent models with transaction support.
-- `AutoFillableTrait`: Automatically with mass assignment only attributes from table data.
-- `EnumHelperTrait`: Provides helper methods for working with PHP enums. 
-- `PropertyConfigurable`: Alows you to manage dynamic configurations stored in attributes like settings or extras. It provides methods for accessing, updating, and caching configuration values, making it easy to work with flexible data structures in your models.
-- Additional helper functions to streamline common tasks.
+- **HasArrayAccessTrait**: Provides array-like access to object properties via magic methods and ArrayAccess interface.
+- **ReadOnlyTrait**: Protects Eloquent models from being saved, updated, or deleted.
+- **BulkDeleteTrait**: Simplifies bulk deletion of Eloquent models with transaction support and event control.
+- **AutoFillableTrait**: Automatically populates mass-assignment fillable attributes from database table columns.
+- **EnumHelperTrait**: Provides helper methods for working with PHP 8.1+ backed enums.
+- **PropertyConfigurable**: Manage dynamic configurations stored in model attributes like `settings` or `extras`.
+- **Helper Functions**: Global functions for string conversion, class introspection, date parsing, and trait detection.
 
-## PHP and Laravel Version Support
+## Requirements
 
-This package supports the following versions of PHP and Laravel:
-
-- PHP: `^8.3`
-- Laravel: `^11.0`, `^12.0`, `^13.0`
+- PHP: `^8.4`
+- Laravel: `^12.0` | `^13.0`
 
 ## Installation
 
@@ -47,187 +34,223 @@ composer require t-labs-co/trait-and-helper
 
 ## Usage
 
+### HasArrayAccessTrait
+
+Provides array-like access to object properties via magic methods and the `ArrayAccess` interface.
+
 ```php
-###
-# HasArrayAccessTrait
-###
-class DataObject implements \ArrayAccess
+<?php
+
+declare(strict_types=1);
+
+namespace App\Models;
+
+use TLabsCo\TraitAndHelper\Arrays\HasArrayAccessTrait;
+
+class DataObject
 {
     use HasArrayAccessTrait;
 
-    protected $options;
-    
-    public function __construct($initData = [])
+    protected array $options = [];
+
+    public function __construct(array $initData = [])
     {
         $this->options = $initData;
     }
 
-    protected function arrayDataKey()
+    protected function arrayDataKey(): string
     {
         return 'options';
     }
 }
 
-// using 
-$dataObject = new DataObject();
-$dataObject->get($key);
-$dataObject->set($key, $value);
-$dataObject->has($key);
+// Usage
+$dataObject = new DataObject(['name' => 'John']);
+$dataObject->get('name');       // 'John'
+$dataObject->set('age', 30);
+$dataObject->has('name');        // true
+$dataObject['email'] = 'test@example.com';  // ArrayAccess
+```
 
-### 
-# ReadOnlyTrait
-# This simply protection for your read model
-### 
+### ReadOnlyTrait
+
+Protects Eloquent models from being saved, updated, or deleted.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use TLabsCo\TraitAndHelper\Model\ReadOnlyTrait;
 
 class Category extends Model
 {
-    use HasFactory;
     use ReadOnlyTrait;
-    // ...
-
 }
 
-// using
-// if you get $category->save();
-// this will throw an exception: Can not save the read-only model Category
-
-// We can enable or disable read only on the fly 
-$category->disableReadOnly()->save();
-
-
-
-###
-# BulkDeleteTrait
-# this simply using transaction and make delete model with event trigger 
-###
-
-class Category extends Model
-{
-    use HasFactory;
-    use BulkDeleteTrait;
-    //...
-}
-
-// Using simple delete
-Category::deletes(Category::where('name', 'unknown'));
-Category::deletes($category);
-Category::deletes($categoryCollection);
-Category::deletes(Category::where('name', 'unknown')->get());
-
-// Force delete
-Category::forceDeletes(Category::where('name', 'unknown'));
-// delete quitely
-Category::deletesQuietly(Category::where('name', 'unknown'));
-
-
-###
-# AutoFillableTrait
-# this trait automatically popular mass assignment only attributes from table columns.
-###
-
-class Category extends Model
-{
-    use HasFactory;
-    use AutoFillableTrait;
-    //...
-    // this model don't need to config $fillable attributes it will auto fetch from database table and perform mass-assignment
-}
-// using 
-$category = new Category();
-$category->fill($data); // 
+// This will throw ReadOnlyException
 $category->save();
 
+// Disable read-only on the fly
+$category->disableReadOnly()->save();
+$category->enableReadOnly();
 ```
 
-###
-# PropertyConfigurable
-# This trait allows you to manage dynamic configurations stored in attributes like settings or extras. It provides methods for accessing, updating, and caching configuration values, making it easy to work with flexible data structures in your models.
-###
+### BulkDeleteTrait
 
-Add using trait `PropertyConfigurable`
+Simplifies bulk deletion of Eloquent models with transaction support.
 
 ```php
-// 
-class Product extends Model
+<?php
+
+declare(strict_types=1);
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use TLabsCo\TraitAndHelper\Model\BulkDeleteTrait;
+
+class Category extends Model
 {
-    use PropertyConfigurable;
-
-    // Make `settings` and `extras` fillable
-    protected $fillable = [
-        'name',
-        'settings',
-        'extras',
-    ];
-
-    // Add `settings` and `extras` to casts
-    protected $casts = [
-        'settings' => 'array',
-        'extras' => 'array',
-    ];
-
-    // Optionally, override the property config key
-    protected $propertyConfigKey = 'settings';
-
-    // Or define a custom config key getter
-    protected function getPropertyConfigKey()
-    {
-        return 'settings';
-    }
+    use BulkDeleteTrait;
 }
 
-Using the config in application
+// Delete by query builder
+Category::deletes(Category::where('name', 'unknown'));
 
-```php
-$product = Product::find(1);
+// Delete single model
+Category::deletes($category);
 
-// Access the `settings` configuration
-$config = $product->config();
-$value = $config->get('key'); // Get a specific key from settings
+// Delete collection
+Category::deletes($categoryCollection);
+
+// Force delete (for soft-deletable models)
+Category::forceDeletes(Category::where('name', 'unknown'));
+
+// Delete without firing events
+Category::deletesQuietly(Category::where('name', 'unknown'));
 ```
 
-You can update the configuration values dynamically.
+### AutoFillableTrait
+
+Automatically populates mass-assignment fillable attributes from database table columns.
 
 ```php
-$product = Product::find(1);
+<?php
 
-// Update a specific key in the `settings` configuration
-$product->config()->set('key', 'new value');
+declare(strict_types=1);
 
-// Save the changes
-$product->save();
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use TLabsCo\TraitAndHelper\Model\AutoFillableTrait;
+
+class Category extends Model
+{
+    use AutoFillableTrait;
+    // No need to manually define $fillable — it's auto-populated from table columns
+}
+
+$category = new Category();
+$category->fill($data)->save();
 ```
 
-Clearing Cached Configurations
+### PropertyConfigurable
 
-```php 
-// You can clear the cached configuration values if needed.
-$product = Product::find(1);
-
-// Clear the cached configuration
-$product->clearConfigCached();
-```
-
-Using a Custom Config Attribute
+Manage dynamic configurations stored in model attributes like `settings` or `extras`.
 
 ```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use TLabsCo\TraitAndHelper\Model\PropertyConfigurable;
+
 class Product extends Model
 {
     use PropertyConfigurable;
 
     protected $fillable = ['name', 'settings', 'extras'];
     protected $casts = ['settings' => 'array', 'extras' => 'array'];
-
-    public function getExtrasAttribute()
-    {
-        return $this->config()->makePropertyConfig($this, 'extras');
-    }
+    protected $propertyConfigKey = 'settings';
 }
 
-// Access the `extras` configuration
+// Access configuration
 $product = Product::find(1);
-$extras = $product->extras->get('extra_key');
+$config = $product->config();
+$value = $config->get('key');
+
+// Update configuration
+$product->config()->set('key', 'new value');
+$product->save();
+
+// Clear cached configuration
+$product->clearConfigCached();
 ```
 
+### EnumHelperTrait
+
+Provides helper methods for working with PHP 8.1+ backed enums.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Enums;
+
+use TLabsCo\TraitAndHelper\Enum\EnumHelperTrait;
+
+enum Status: string
+{
+    use EnumHelperTrait;
+
+    case Active = 'active';
+    case Inactive = 'inactive';
+}
+
+Status::labels();   // ['Active', 'Inactive']
+Status::values();   // ['active', 'inactive']
+Status::names();    // ['Active', 'Inactive']
+Status::toArray();  // ['active', 'inactive']
+Status::toSelect(); // [['active' => 'Active'], ['inactive' => 'Inactive']]
+Status::toList();   // 'active,inactive'
+
+Status::Active->label();  // 'Active'
+Status::Active->toUpper(); // 'ACTIVE'
+Status::Active->toLower(); // 'active'
+Status::Active->is('active'); // true
+```
+
+### Helper Functions
+
+The package provides several global helper functions:
+
+```php
+camel2dashed('camelCase');           // 'camel-case'
+camel2dashed('camelCase', '_');      // 'camel_case'
+class2camel('App\Models\User');      // 'user'
+class_name_only('App\Enums\Status'); // 'status'
+has_use(SomeTrait::class, $obj);     // true/false
+parse_date_carbon('2024-01-01');     // Carbon instance
+```
+
+
+## Quality & Development Practices
+
+This package follows strict development standards:
+
+- **PHPStan Level 8**: Static analysis with Larastan for type safety and bug prevention.
+- **Pest PHP**: Modern testing framework with parallel execution support.
+- **Laravel Pint**: Code style enforcement following Laravel conventions.
+- **Full Type Coverage**: All parameters, properties, and return types are explicitly typed.
+- **Strict Types**: Every file uses `declare(strict_types=1)`.
 
 ## Testing
 
@@ -239,17 +262,13 @@ composer test
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
 ## Security Vulnerabilities
 
 Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
 
 ## Credits
 
-- [T.Labs & Co](https://github.com/t-labs-co)
+- [Ty Huynh](https://github.com/ty-huynh)
 - [All Contributors](../../contributors)
 
 ## License

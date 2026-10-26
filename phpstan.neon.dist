@@ -1,19 +1,9 @@
 includes:
-    - phpstan-baseline.neon
+    - vendor/larastan/larastan/extension.neon
 
 parameters:
-    level: 5
     paths:
         - src
-        - config
-        - database
-    tmpDir: build/phpstan
-    checkOctaneCompatibility: true
-    checkModelProperties: true
+    level: 8
     ignoreErrors:
-        - '#Trait [a-zA-Z0-9\\_]+HasArrayAccessTrait is used zero times and is not analysed.#'
-        - '#Trait [a-zA-Z0-9\\_]+ReadOnlyTrait is used zero times and is not analysed.#'
-        - '#Trait [a-zA-Z0-9\\_]+EnumHelperTrait is used zero times and is not analysed.#'
-        - '#Trait [a-zA-Z0-9\\_]+BulkDeleteTrait is used zero times and is not analysed.#'
-        - '#Trait [a-zA-Z0-9\\_]+AutoFillableTrait is used zero times and is not analysed.#'
-        - '#Trait [a-zA-Z0-9\\_]+PropertyConfigurable is used zero times and is not analysed.#'
+        - '#Trait .+ is used zero times and is not analysed#'

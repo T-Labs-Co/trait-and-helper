@@ -1,24 +1,6 @@
 <?php
 
-/*
- * This file is a part of package t-co-labs/trait-and-helper
- *
- * (c) T.Labs & Co.
- * Contact for Work: T. <hongty.huynh@gmail.com>
- *
- * We're PHP and Laravel whizzes, and we'd love to work with you! We can:
- *  - Design the perfect fit solution for your app.
- *  - Make your code cleaner and faster.
- *  - Refactoring and Optimize performance.
- *  - Ensure Laravel best practices are followed.
- *  - Provide expert Laravel support.
- *  - Review code and Quality Assurance.
- *  - Offer team and project leadership.
- *  - Delivery Manager
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
 namespace TLabsCo\TraitAndHelper\Arrays;
 
@@ -26,16 +8,12 @@ use Illuminate\Support\Arr;
 
 trait HasArrayAccessTrait
 {
-    protected function arrayDataKey()
+    protected function arrayDataKey(): string
     {
         return 'data';
     }
 
-    /**
-     * @param  string  $key
-     * @return bool
-     */
-    public function has($key)
+    public function has(string $key): bool
     {
         return Arr::has($this->{$this->arrayDataKey()}, $key);
     }
@@ -58,7 +36,7 @@ trait HasArrayAccessTrait
      * @param  array<string|int,mixed>  $keys
      * @return array<string,mixed>
      */
-    public function getMany($keys)
+    public function getMany(array $keys): array
     {
         $config = [];
 
@@ -76,9 +54,8 @@ trait HasArrayAccessTrait
     /**
      * @param  array|string  $key
      * @param  mixed  $value
-     * @return void
      */
-    public function set($key, $value = null)
+    public function set($key, $value = null): void
     {
         $keys = is_array($key) ? $key : [$key => $value];
 
@@ -87,10 +64,7 @@ trait HasArrayAccessTrait
         }
     }
 
-    /**
-     * @return array
-     */
-    public function all()
+    public function all(): array
     {
         return $this->{$this->arrayDataKey()};
     }
@@ -127,10 +101,10 @@ trait HasArrayAccessTrait
      */
     public function offsetUnset($key): void
     {
-        $this->set($key, null);
+        Arr::forget($this->{$this->arrayDataKey()}, $key);
     }
 
-    public function __get(string $key)
+    public function __get(string $key): mixed
     {
         return $this->offsetGet($key);
     }
