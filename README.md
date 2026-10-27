@@ -32,6 +32,8 @@ You can install the package via composer:
 composer require t-labs-co/trait-and-helper
 ```
 
+> **Upgrading from v1.x?** Read the [Migration Guide](MIGRATION_To_V2.md) for a step-by-step upgrade path.
+
 ## Usage
 
 ### HasArrayAccessTrait
